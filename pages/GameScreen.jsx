@@ -3,7 +3,7 @@ import {View,Text,StyleSheet, Button,Alert} from "react-native"
 import NumberContainer from "../components/NumberContainer"
 import Card from "../components/Card"
 
-export default GameScreen = ({userOption,onGameOver}) => {
+export default GameScreen = ({userNumber,setRounds,setFoundNumber}) => {
 
     const generateRandomBetween = (min,max,exclude) => {
         min = Math.floor(min)
@@ -13,27 +13,29 @@ export default GameScreen = ({userOption,onGameOver}) => {
         else return rndNumber
       } 
 
-    const [currentGuess,setCurrentGuess] = useState(generateRandomBetween(0,99,userOption))
-    const [rounds,setRounds] = useState(0)
+    const [currentGuess,setCurrentGuess] = useState(generateRandomBetween(0,99,userNumber))
+    
     const currentLow = useRef(0)
     const currentHigh = useRef(99)
 
     useEffect(()=>{
-        if(currentGuess == userOption) onGameOver(rounds)
-    },[currentGuess,userOption,onGameOver])
+        if(currentGuess == userNumber) setFoundNumber(true)
+    },[currentGuess,userNumber])
 
     const handlerNextGuess = direction =>{
-        if((direction == "lower" && currentGuess < userOption) || (direction === "greater" || currentGuess > userOption))
-        {
-            Alert.alert("No Mientas!!","Tu sabes que no es verdad...!!",[{text:"Disculpa!",style:"cancel"}])
+        setRounds(current => current + 1)
+        
+        if((direction === "lower" && currentGuess < userNumber) || (direction === "greater" && currentGuess > userNumber)){
+          return  Alert.alert("Te equivocas","Tu sabes que no es verdad...!!",[{text:"Disculpa!",style:"cancel"}])
         }
+
         if(direction === "lower"){
             currentHigh.current = currentGuess
         } else {
             currentLow.current = currentGuess
         }
         setCurrentGuess(generateRandomBetween(currentLow.current,currentHigh.current,currentGuess))
-        setRounds(current => current + 1)
+        
        
     }
     return (

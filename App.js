@@ -1,8 +1,9 @@
-import { StyleSheet, View ,Text} from 'react-native'
+import { StyleSheet, View} from 'react-native'
 import Header from './components/Header'
 import StartGameScreen from './pages/StartGameScreen'
 import { useState } from 'react'
 import GameScreen from './pages/GameScreen'
+import EndGame from './pages/EndGame'
 /*
 import * as Font from "expo-font"
 import {AppLoading} from "expo"
@@ -16,7 +17,15 @@ const fetchFonts = async () => {
 */
 export default App = () => {
 
-  const [userNumber,setUserNumber] = useState()
+  const [rounds,setRounds] = useState(0)
+  const [userNumber,setUserNumber] = useState(null)
+  const [foundNumber,setFoundNumber] = useState(false)
+
+  const handleRestartGame = () => {
+    setUserNumber(null)
+    setRounds(0)
+    setFoundNumber(false)
+  }
   /*
   const [dataLoader,setDataLoader] = useState(false)
   const { loaded: loader, error } = Font.useFonts({
@@ -34,14 +43,18 @@ export default App = () => {
     )
   }
   */
-  const handlerStartGame = selectedNumber => {
-    setUserNumber(selectedNumber)
+  let content
+
+  if(!foundNumber){
+    content = <StartGameScreen setUserNumber={setUserNumber} />
   }
 
-  let content = <StartGameScreen onStartGamer={handlerStartGame}/>
-
   if(userNumber){
-    content = <GameScreen userOption={userNumber}/>
+    content = <GameScreen userNumber={userNumber} setRounds={setRounds} setFoundNumber={setFoundNumber}/>
+  }
+
+  if(foundNumber){
+    content = <EndGame rounds={rounds} userNumber={userNumber} handleRestartGame={handleRestartGame} />
   }
 
   return (

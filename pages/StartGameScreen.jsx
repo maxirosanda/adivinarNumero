@@ -6,19 +6,29 @@ import Input from "../components/Input"
 import NumberContainer from "../components/NumberContainer"
 
 
-export default StartGameScreen = ({onStartGamer}) => {
+export default StartGameScreen = ({setUserNumber}) => {
 
     const [enteredValue,setEnteredValue] = useState("")
     const [confirmed,setConfirmed] = useState(false)
-    const [selectedNumber,setSelectedNumber] = useState("")
+    const [selectedNumber,setSelectedNumber] = useState(null)
+
     const handlerInputNumber = text => setEnteredValue(text.replace(/[^0-9]/g,""))
+    
     const handlerResetInput = () =>  setEnteredValue("")
+
     const handlerConfirmInput = () => {
         const choseNumber = parseInt(enteredValue)
         if(isNaN(choseNumber) || choseNumber < 0 || choseNumber > 99 ) return
         setConfirmed(true)
         setSelectedNumber(choseNumber)
         setEnteredValue("")
+    }
+    const handlerStartGame = () => {
+        setUserNumber(selectedNumber)
+        setConfirmed(false)
+        setSelectedNumber(null)
+        setEnteredValue("")
+        
     }
    
     return  <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
@@ -47,7 +57,7 @@ export default StartGameScreen = ({onStartGamer}) => {
                             <Card style={styles.summaryContainer}>
                                 <Text>Tu seleccion</Text>
                                 <NumberContainer>Numero Elegido : {selectedNumber}</NumberContainer>
-                                <Button title="Empezar juego" onPress={() => onStartGamer(selectedNumber)}></Button>
+                                <Button title="Empezar juego" onPress={handlerStartGame}></Button>
                             </Card>
                         )
                     }
