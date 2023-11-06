@@ -4,7 +4,7 @@ import Color from "../constants/colors"
 export default NumberContainer = ({children}) => {
     return (
         <View style={styles.container}>
-            <Text>Numero elegido: {children}</Text> 
+            <Text>{children}</Text> 
         </View>
     )
 }

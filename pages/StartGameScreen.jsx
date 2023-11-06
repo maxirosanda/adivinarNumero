@@ -6,7 +6,7 @@ import Input from "../components/Input"
 import NumberContainer from "../components/NumberContainer"
 
 
-export default StartGameScreen = () => {
+export default StartGameScreen = ({onStartGamer}) => {
 
     const [enteredValue,setEnteredValue] = useState("")
     const [confirmed,setConfirmed] = useState(false)
@@ -15,7 +15,7 @@ export default StartGameScreen = () => {
     const handlerResetInput = () =>  setEnteredValue("")
     const handlerConfirmInput = () => {
         const choseNumber = parseInt(enteredValue)
-        if(isNaN(choseNumber) || choseNumber <= 0 || choseNumber > 99 ) return
+        if(isNaN(choseNumber) || choseNumber < 0 || choseNumber > 99 ) return
         setConfirmed(true)
         setSelectedNumber(choseNumber)
         setEnteredValue("")
@@ -46,8 +46,8 @@ export default StartGameScreen = () => {
                     confirmed && (
                             <Card style={styles.summaryContainer}>
                                 <Text>Tu seleccion</Text>
-                                <NumberContainer>{selectedNumber}</NumberContainer>
-                                <Button title="Empezar juego"></Button>
+                                <NumberContainer>Numero Elegido : {selectedNumber}</NumberContainer>
+                                <Button title="Empezar juego" onPress={() => onStartGamer(selectedNumber)}></Button>
                             </Card>
                         )
                     }
