@@ -1,12 +1,12 @@
 import { useState } from "react"
-import {View,Text,StyleSheet,Button,TouchableWithoutFeedback, Keyboard} from "react-native"
+import {View,Text,StyleSheet,Button,TouchableWithoutFeedback, Keyboard,KeyboardAvoidingView,Platform, ScrollView} from "react-native"
 import Card from "../components/Card"
 import Colors from "../constants/colors"
 import Input from "../components/Input"
 import NumberContainer from "../components/NumberContainer"
 
 
-export default StartGameScreen = ({setUserNumber}) => {
+const StartGameScreen = ({setUserNumber}) => {
 
     const [enteredValue,setEnteredValue] = useState("")
     const [confirmed,setConfirmed] = useState(false)
@@ -31,38 +31,42 @@ export default StartGameScreen = ({setUserNumber}) => {
         
     }
    
-    return  <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
-                <View style={styles.screen}>
-                    <Text style={styles.title}>Comenzar Juego</Text>
-                    <Card style={styles.inputContainer}>
-                        <Input
-                            blurOnSubmit
-                            autoCapitalization="none"
-                            autoCorrect={false}
-                            keyboardType="numeric"
-                            maxLength={2}
-                            caretHidden={true}
-                            selectionColor="blue"
-                            onChangeText = {handlerInputNumber}
-                            value={enteredValue}
+    return  <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={30}>
+                <ScrollView>
+                    <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
+                        <View style={styles.screen}>
+                            <Text style={styles.title}>Comenzar Juego</Text>
+                            <Card style={styles.inputContainer}>
+                                <Input
+                                    blurOnSubmit
+                                    autoCapitalization="none"
+                                    autoCorrect={false}
+                                    keyboardType="numeric"
+                                    maxLength={2}
+                                    caretHidden={true}
+                                    selectionColor="blue"
+                                    onChangeText = {handlerInputNumber}
+                                    value={enteredValue}
 
-                        />
-                        <View style={styles.buttonContainer}>
-                        <View style={styles.button}><Button  title="Confirmar" color={Colors.primary} onPress={handlerConfirmInput}/></View>  
-                        <View style={styles.button}><Button  title="Limpiar" color={Colors.accent} onPress={handlerResetInput}/></View>  
-                        </View>
-                    </Card>
-                    {   
-                    confirmed && (
-                            <Card style={styles.summaryContainer}>
-                                <Text>Tu seleccion</Text>
-                                <NumberContainer>Numero Elegido : {selectedNumber}</NumberContainer>
-                                <Button title="Empezar juego" onPress={handlerStartGame}></Button>
+                                />
+                                <View style={styles.buttonContainer}>
+                                <View style={styles.button}><Button  title="Confirmar" color={Colors.primary} onPress={handlerConfirmInput}/></View>  
+                                <View style={styles.button}><Button  title="Limpiar" color={Colors.accent} onPress={handlerResetInput}/></View>  
+                                </View>
                             </Card>
-                        )
-                    }
-                </View>
-            </TouchableWithoutFeedback>    
+                            {   
+                            confirmed && (
+                                    <Card style={styles.summaryContainer}>
+                                        <Text>Tu seleccion</Text>
+                                        <NumberContainer>Numero Elegido : {selectedNumber}</NumberContainer>
+                                        <Button title="Empezar juego" onPress={handlerStartGame}></Button>
+                                    </Card>
+                                )
+                            }
+                        </View>
+                    </TouchableWithoutFeedback>
+                </ScrollView>
+            </KeyboardAvoidingView>    
 }
 
 const styles = StyleSheet.create({
@@ -88,3 +92,5 @@ const styles = StyleSheet.create({
     }
 
 })
+
+export default StartGameScreen

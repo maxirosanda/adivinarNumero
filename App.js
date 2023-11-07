@@ -1,9 +1,10 @@
-import { StyleSheet, View} from 'react-native'
+import { StyleSheet, SafeAreaView} from 'react-native'
 import Header from './components/Header'
 import StartGameScreen from './pages/StartGameScreen'
-import { useState } from 'react'
+import { useState} from 'react'
 import GameScreen from './pages/GameScreen'
 import EndGame from './pages/EndGame'
+
 /*
 import * as Font from "expo-font"
 import {AppLoading} from "expo"
@@ -15,7 +16,7 @@ const fetchFonts = async () => {
   })
 }
 */
-export default App = () => {
+const App = () => {
 
   const [rounds,setRounds] = useState(0)
   const [userNumber,setUserNumber] = useState(null)
@@ -58,10 +59,10 @@ export default App = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
         <Header title={"Header"}/>
         {content}
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -72,3 +73,5 @@ const styles = StyleSheet.create({
   }
   
 })
+
+export default App

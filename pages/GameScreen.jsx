@@ -3,7 +3,7 @@ import {View,Text,StyleSheet, Button,Alert} from "react-native"
 import NumberContainer from "../components/NumberContainer"
 import Card from "../components/Card"
 
-export default GameScreen = ({userNumber,setRounds,setFoundNumber}) => {
+const  GameScreen = ({userNumber,setRounds,setFoundNumber}) => {
 
     const generateRandomBetween = (min,max,exclude) => {
         min = Math.floor(min)
@@ -69,3 +69,5 @@ const styles = StyleSheet.create({
 
     }
 })
+
+export default GameScreen
